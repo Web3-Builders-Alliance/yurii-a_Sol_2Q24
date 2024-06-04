@@ -1,0 +1,74 @@
+*wallet.json
+node_modules
+target
+.DS_Store
+# Rust
+/target/
+/**/target/
+**/*.rs.bk
+
+# Generated files and directories
+Cargo.lock
+*.rs.bk
+
+# Solana-specific
+/.cargo/
+/.docker/
+/.dist/
+/.snapshots/
+/node_modules/
+/dist/
+/lib/
+*.log
+*.tsbuildinfo
+
+# TypeScript
+node_modules/
+dist/
+lib/
+*.log
+*.tsbuildinfo
+
+# Yarn and npm
+yarn-error.log
+yarn-debug.log*
+npm-debug.log*
+package-lock.json
+.pnp.*
+.pnpjs
+
+# TypeScript/Babel/Next.js caches
+.cache
+.next
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.yml
+.env
+.dockerignore
+Dockerfile
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Others
+!.gitkeep
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+test-ledger/

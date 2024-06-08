@@ -1,7 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{associated_token::AssociatedToken};
+use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount, Transfer, transfer};
-
 use crate::state::escrow::Escrow;
 
 #[derive(Accounts)]

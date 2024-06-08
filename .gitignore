@@ -1,11 +1,18 @@
+# Ignore wallet.json files
 *wallet.json
-node_modules
-target
+
+# Node modules and Rust target directories
+node_modules/
+**/node_modules/
+target/
+**/target/
 .DS_Store
+
 # Rust
 /target/
 /**/target/
 **/*.rs.bk
+**/.anchor/
 
 # Generated files and directories
 Cargo.lock
@@ -23,11 +30,12 @@ Cargo.lock
 *.tsbuildinfo
 
 # TypeScript
-node_modules/
 dist/
+**/dist/
 lib/
-*.log
-*.tsbuildinfo
+**/lib/
+**/*.log
+**/*.tsbuildinfo
 
 # Yarn and npm
 yarn-error.log
@@ -43,7 +51,9 @@ package-lock.json
 
 # Editor directories and files
 .vscode/
+**/.vscode/
 .idea/
+**/.idea/
 *.suo
 *.ntvs*
 *.njsproj
@@ -51,7 +61,6 @@ package-lock.json
 *.sw?
 
 # OS-specific files
-.DS_Store
 Thumbs.db
 
 # Docker
@@ -72,3 +81,5 @@ Dockerfile
 .env.test.local
 .env.production.local
 test-ledger/
+
+# Ignore all child project-specific node_modules, dist, lib, etc.

@@ -1,6 +1,6 @@
 use anchor_lang::{prelude::*, system_program};
 use anchor_spl::{associated_token::AssociatedToken, token_interface::{Mint, TokenAccount, TokenInterface}};
-use anchor_spl::token::{transfer_checked, TransferChecked};
+use anchor_spl::token::{close_account, transfer_checked, TransferChecked};
 use system_program::Transfer;
 
 use crate::state::{Listing, Marketplace};
@@ -90,7 +90,7 @@ impl<'info> Purchase<'info> {
         let cpi_accounts = TransferChecked {
             from: self.vault.to_account_info(),
             to: self.taker_ata.to_account_info(),
-            authority: self.maker.to_account_info(),
+            authority: self.listing.to_account_info(),
             mint: self.maker_mint.to_account_info(),
         };
 
@@ -106,6 +106,8 @@ impl<'info> Purchase<'info> {
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
 
         transfer_checked(cpi_ctx, 1, self.maker_mint.decimals)?;
+
+        self.listing.close(self.maker.to_account_info())?;
 
         Ok(())
     }
@@ -128,7 +130,7 @@ fn calculate_fee(amount: u64, fee_basis_points: u16) -> u64 {
     fee
 }
 
-// X Send the price from the taker to the maker (SOL)
-// Send the fee from the taker to the treasury (SOL)
-// Send the NFT from the vault to the taker
-// Optional: Send the rewards to the taker
+// [X] Send the price from the taker to the maker (SOL)
+// [X] Send the fee from the taker to the treasury (SOL)
+// [X] Send the NFT from the vault to the taker
+// [ ] Optional: Send the rewards to the taker

@@ -1,15 +1,14 @@
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount, Transfer, transfer};
-use crate::state::escrow::Escrow;
+use crate::state::escrow::*;
 
 #[derive(Accounts)]
 #[instruction(seed: u64)]
-pub struct Taker<'info> {
+pub struct Take<'info> {
     #[account(mut)]
     pub taker: Signer<'info>,
-    #[account(mut)]
-    pub maker: AccountInfo<'info>,
+    pub maker: SystemAccount<'info>,
     pub mint_a: Account<'info, Mint>,
     pub mint_b: Account<'info, Mint>,
     #[account(
@@ -17,7 +16,7 @@ pub struct Taker<'info> {
         seeds = [
             b"escrow",
             escrow.maker.key().as_ref(),
-            escrow.seed.to_le_bytes().as_ref()
+            escrow.seed.to_le_bytes().as_ref(),
         ],
         bump=escrow.bump,
         has_one=mint_a,
@@ -55,7 +54,7 @@ pub struct Taker<'info> {
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
 }
-impl<'info> Taker<'info> {
+impl<'info> Take<'info> {
     pub fn take(&mut self) -> Result<()>{
         // Transfer from Taker Mint B to Maker Mint B
         let cpi_program = self.token_program.to_account_info();
@@ -81,6 +80,11 @@ impl<'info> Taker<'info> {
         let signer_seeds = &[&seeds[..]];
 
         let cpi_program = self.token_program.to_account_info();
+        let cpi_accounts = Transfer {
+            from: self.vault.to_account_info(),
+            to: self.taker_ata_a.to_account_info(),
+            authority: self.escrow.to_account_info(),
+        };
         let cpi_accounts = Transfer {
             from: self.vault.to_account_info(),
             to: self.taker_ata_a.to_account_info(),

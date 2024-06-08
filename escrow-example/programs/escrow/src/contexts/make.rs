@@ -33,7 +33,7 @@ pub struct Make<'info> {
     pub vault: Account<'info, TokenAccount>,
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
-    pub s: Program<'info, AssociatedToken>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
 }
 
 impl<'info> Make<'info> {
